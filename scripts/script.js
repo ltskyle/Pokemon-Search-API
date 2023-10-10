@@ -1,23 +1,30 @@
-let allPokemon = [] // Store all fetched Pokémon
+// Array to store all fetched Pokémon data.
+let allPokemon = []
 
+// Event listener for when the document is fully loaded.
 document.addEventListener('DOMContentLoaded', function () {
+    // Check if the current page is 'index.html' or the root directory.
     if (
         window.location.pathname.includes('index.html') ||
         window.location.pathname === '/'
     ) {
+        // Fetch the list of Pokémon.
         fetchPokemonList()
 
-        // Filter on input change
+        // Add event listener to the search input to filter Pokémon list based on user input.
         document
             .getElementById('pokemonSearch')
             .addEventListener('input', function () {
                 const searchTerm = this.value.trim().toLowerCase()
                 filterPokemonList(searchTerm)
             })
+
+        // Check if the current page is 'stats.html'.
     } else if (window.location.pathname.includes('stats.html')) {
+        // Display stats for the selected Pokémon.
         displayPokemonStats()
 
-        // Event listener for the "Go Back" button
+        // Add event listener for the "Go Back" button to redirect back to the main list.
         document
             .getElementById('goBack')
             .addEventListener('click', function () {
@@ -26,46 +33,68 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 })
 
+// Function to fetch Pokémon list from the API.
 function fetchPokemonList() {
     fetch('https://pokeapi.co/api/v2/pokemon?limit=200')
         .then((response) => response.json())
         .then((data) => {
-            allPokemon = data.results // Store the results in the allPokemon array
-            renderPokemonList(allPokemon) // Render the Pokémon list
+            // Store the results in the allPokemon array.
+            allPokemon = data.results
+
+            // Render the Pokémon list on the page.
+            renderPokemonList(allPokemon)
         })
 }
 
+// Function to render the Pokémon list on the page.
 function renderPokemonList(pokemonList) {
     const pokemonListEl = document.getElementById('pokemonList')
-    pokemonListEl.innerHTML = '' // Clear current list
+
+    // Clear current list.
+    pokemonListEl.innerHTML = ''
+
+    // Loop through the list of Pokémon and create a card for each.
     pokemonList.forEach((pokemon) => {
         const pokemonCard = document.createElement('div')
         pokemonCard.className = 'pokemon-card'
         pokemonCard.innerHTML = pokemon.name
+
+        // Add event listener to each card to redirect to stats page when clicked.
         pokemonCard.addEventListener('click', () => {
             localStorage.setItem('selectedPokemonUrl', pokemon.url)
             window.location.href = 'stats.html'
         })
+
+        // Append the card to the list.
         pokemonListEl.appendChild(pokemonCard)
     })
 }
 
+// Function to filter the Pokémon list based on a search term.
 function filterPokemonList(searchTerm) {
     const filteredPokemon = allPokemon.filter((pokemon) =>
         pokemon.name.includes(searchTerm)
     )
+
+    // Render the filtered list.
     renderPokemonList(filteredPokemon)
 }
 
+// Function to display detailed statistics for a selected Pokémon.
 function displayPokemonStats() {
     const url = localStorage.getItem('selectedPokemonUrl')
+
+    // Check if there's a selected Pokémon URL.
     if (url) {
         fetch(url)
             .then((response) => response.json())
             .then((pokemon) => {
+                // Display the Pokémon's name and image.
                 document.getElementById('pokemonName').innerText = pokemon.name
                 document.getElementById('pokemonImage').src =
                     pokemon.sprites.front_default
+
+                // Loop through the stats and display each on the page.
                 const statsEl = document.getElementById('pokemonStats')
                 pokemon.stats.forEach((stat) => {
                     const li = document.createElement('li')
