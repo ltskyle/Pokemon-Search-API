@@ -8,11 +8,23 @@
     </head>
     <body>
         <div class="container">
-            <h1 id="pokemonName"></h1>
-            <img id="pokemonImage" src="" alt="Pokémon Image" />
-            <ul id="pokemonStats"></ul>
-            <button id="goBack">Go Back</button>
+        <h1 id="pokemonName"></h1>
+
+        <!-- Container for Pokemon image and dropdown -->
+        <div id="pokemonImageContainer">
+            <img id="pokemonImage" src="" alt="Pokemon Sprite">
+            <select id="spriteSelector">
+                <option value="default">Regular</option>
+                <option value="shiny">Shiny</option>
+            </select>
         </div>
+
+        <!-- List for displaying the Pokemon's stats -->
+        <ul id="pokemonStats"></ul>
+
+        <!-- Go Back button to navigate back to the list -->
+        <button id="goBack">Go Back</button>
+    </div>
 
         <script src="./scripts/script.js"></script>
     </body>

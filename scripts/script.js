@@ -84,17 +84,29 @@ function filterPokemonList(searchTerm) {
 function displayPokemonStats() {
     const url = localStorage.getItem('selectedPokemonUrl')
 
-    // Check if there's a selected Pokémon URL.
     if (url) {
         fetch(url)
             .then((response) => response.json())
             .then((pokemon) => {
-                // Display the Pokémon's name and image.
                 document.getElementById('pokemonName').innerText = pokemon.name
-                document.getElementById('pokemonImage').src =
-                    pokemon.sprites.front_default
+                const pokemonImageEl = document.getElementById('pokemonImage')
 
-                // Loop through the stats and display each on the page.
+                // Set the default sprite initially.
+                pokemonImageEl.src = pokemon.sprites.front_default
+
+                // Dropdown to select between regular and shiny sprites.
+                const spriteSelector = document.getElementById('spriteSelector')
+
+                // Handle the change event of the dropdown.
+                spriteSelector.addEventListener('change', (event) => {
+                    if (event.target.value === 'shiny') {
+                        pokemonImageEl.src = pokemon.sprites.front_shiny
+                    } else {
+                        pokemonImageEl.src = pokemon.sprites.front_default
+                    }
+                })
+
+                // Display the stats.
                 const statsEl = document.getElementById('pokemonStats')
                 pokemon.stats.forEach((stat) => {
                     const li = document.createElement('li')
