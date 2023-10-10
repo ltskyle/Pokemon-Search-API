@@ -42,7 +42,8 @@ h1 {
 }
 
 img {
-    max-width: 100%;
+    max-width: 150px;
+    width: 100%;
     border-radius: 50%;
     transition: all 0.3s;
 }
