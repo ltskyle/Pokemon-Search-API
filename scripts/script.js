@@ -5,8 +5,7 @@ let allPokemon = []
 document.addEventListener('DOMContentLoaded', function () {
     // Check if the current page is 'index.html' or the root directory.
     if (
-        window.location.pathname.includes('index.html') ||
-        window.location.pathname === '/'
+        window.location.pathname.includes('index.html')
     ) {
         // Fetch the list of Pokémon.
         fetchPokemonList()
