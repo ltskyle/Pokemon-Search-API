@@ -1,9 +1,12 @@
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #e0e8ff;
     margin: 0;
     padding: 0;
     color: #3d7dca;
+    background-image: url('../images/Pokemon-Background.jpg');
+    background-attachment: fixed;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 .container {
